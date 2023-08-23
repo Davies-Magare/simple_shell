@@ -32,7 +32,10 @@ char *search_command(char *command, char *path)
 		path_tok = strtok(NULL, ":");
 	}
 	if (search_path != NULL)
+	{
+		printf("%s\n", search_path);
 		return (search_path);
+	}
 	return (NULL);
 }
 

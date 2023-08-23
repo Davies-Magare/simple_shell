@@ -8,7 +8,7 @@
  * Return: 1 if the command was found
  * 0 if otherwise
  */
-void execute_shell(char **args, char **envp)
+int execute_shell(char **args, char **envp)
 {
 	pid_t pid;
 	int status;
@@ -16,14 +16,12 @@ void execute_shell(char **args, char **envp)
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	else if (pid == 0)
 	{
-		execve(args[0], args, envp);
-		perror(args[0]);
-		exit(EXIT_FAILURE);
+		if ((execve(args[0], args, envp) == -1))
+		return (0);
 	}
 	else
 	{
@@ -31,5 +29,6 @@ void execute_shell(char **args, char **envp)
 		if (WIFEXITED(status))
 			global_exit_status = (WEXITSTATUS(status));
 	}
+	return (1);
 }
 

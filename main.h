@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #define BUFSIZE 1024
-void execute_shell(char **args, char **envp);
+int execute_shell(char **args, char **envp);
 char **tokenize_input(char *buffer);
 char *check_buffer(char *buffer);
 int full_command(char **args, char **envp);

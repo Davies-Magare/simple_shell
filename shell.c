@@ -11,10 +11,11 @@
 int main(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[], char **envp)
 {
 	ssize_t getline_ret;
-	char *buffer = NULL, *prompt = "$ ", *cpy_buf;
+	char *buffer = NULL, *prompt = "$ ";
 	size_t size;
 	char **args;
 	int mode = isatty(0);
+	int ret_exec;
 
 	while (1)
 	{
@@ -23,13 +24,14 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[],
 		getline_ret = getline(&buffer, &size, stdin);
 		if (getline_ret == -1)
 		{
-			free(buffer);
-			exit(global_exit_status);
+			break;
 		}
-		cpy_buf = check_buffer(buffer);
-		if (cpy_buf[0] == '\n')
+		args = tokenize_input(buffer);
+		if (args == NULL)
+		{
+			errno = 0;
 			continue;
-		args = tokenize_input(cpy_buf);
+		}
 		if (_strcmp(args[0], "env") == 0)
 		{
 			print_env(envp);
@@ -42,11 +44,14 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[],
 			free_array(args);
 			exit(global_exit_status);
 		}
-		full_command(args, envp);
+		ret_exec = full_command(args, envp);
+		if (ret_exec)
+			errno = 0;
+		else
+			errno = 127;
 	}
 	free(buffer);
-	exit(global_exit_status);
-	return (0);
+	return (errno);
 }
 
 /**
