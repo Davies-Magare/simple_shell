@@ -34,6 +34,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) *argv[],
 		}
 		if (_strcmp(args[0], "env") == 0)
 		{
+			errno = 0;
 			print_env(envp);
 			free_array(args);
 			continue;
