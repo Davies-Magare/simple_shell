@@ -24,7 +24,7 @@ int full_command(char **args, char **envp)
 		full_path = search_command(args[0], job_path);
 		if (full_path == NULL)
 		{
-			perror(args[0]);
+			print_error(args[0]);
 			free_array(args);
 			free(cpy_path);
 			return (0);

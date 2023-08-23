@@ -18,7 +18,7 @@ int global_exit_status;
 char *find_path(char **envp);
 char *search_command(char *command, char *path);
 void print_env(char **envp);
-void print_error(int mode, char *program);
+void print_error(char *program);
 char *_strcpy(char *dest, char *src);
 char *_strstr(char *haystack, char *needle);
 int _strlen(char *s);
