@@ -14,9 +14,9 @@ char *find_path(char **envp)
 
 	for (i = 0; envp[i] != NULL; i++)
 	{
-		if ((_strstr(envp[i], "PATH")) && envp[i][4] == '=')
+		if (_strstr(envp[i], "PATH"))
 		{
-			path = (envp[i] + _strlen("PATH") + 1);
+			path = (envp[i] + 5);
 			break;
 		}
 	}
